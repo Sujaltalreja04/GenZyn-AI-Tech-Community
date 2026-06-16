@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { leadership, engineering, design, community, ambassadors } from "../data/team";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
-import { Mail, Heart, Globe, Award, ChevronRight } from "lucide-react";
 import { Twitter, Github, Linkedin } from "../components/SocialIcons";
 
 export function Team() {

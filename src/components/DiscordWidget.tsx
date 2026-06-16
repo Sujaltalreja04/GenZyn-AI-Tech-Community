@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageSquare, Users, Sparkles, Send } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 export function DiscordWidget() {
   const [onlineCount, setOnlineCount] = useState(15243);

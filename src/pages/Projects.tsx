@@ -5,7 +5,7 @@ import { FilterTabs } from "../components/FilterTabs";
 import { SearchBar } from "../components/SearchBar";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
-import { Star, GitFork, Users, Plus, Award, Layout, BookOpen, ExternalLink } from "lucide-react";
+import { Star, GitFork, Users, Plus, Award, BookOpen, ExternalLink } from "lucide-react";
 import { Github } from "../components/SocialIcons";
 
 export function Projects() {

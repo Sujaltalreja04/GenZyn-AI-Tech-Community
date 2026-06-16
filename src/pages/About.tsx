@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Accordion } from "../components/Accordion";
-import { Award, Target, Compass, Heart, Users, ChevronRight, Newspaper, FileText } from "lucide-react";
+import { Award, Target, Compass, Heart, Users, ChevronRight, Newspaper } from "lucide-react";
 
 export function About() {
   const values = [

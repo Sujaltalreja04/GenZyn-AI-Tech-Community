@@ -4,7 +4,7 @@ import { resourceCategories, difficultyLevels, type Resource } from "../data/res
 import { SearchBar } from "../components/SearchBar";
 import { FilterTabs } from "../components/FilterTabs";
 import { useToast } from "../components/Toast";
-import { BookMarked, Bookmark, Download, Search, Check, Info, FileText } from "lucide-react";
+import { Bookmark, Download, FileText } from "lucide-react";
 
 export function Resources() {
   const [activeCategory, setActiveCategory] = useState("All");

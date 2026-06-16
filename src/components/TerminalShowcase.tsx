@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, Code, Copy, Check, TerminalSquare } from "lucide-react";
+import { Terminal, Copy, Check } from "lucide-react";
 import { useToast } from "./Toast";
 
 export function TerminalShowcase() {

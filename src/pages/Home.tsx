@@ -10,7 +10,7 @@ import { TerminalShowcase } from "../components/TerminalShowcase";
 import { projects } from "../data/projects";
 import { blogPosts } from "../data/blog";
 import { events } from "../data/events";
-import { Award, Zap, Users, Code, ChevronRight, MessageSquare } from "lucide-react";
+import { Zap, Users, Code, ChevronRight, MessageSquare } from "lucide-react";
 
 export function Home() {
   // Get 3 featured projects

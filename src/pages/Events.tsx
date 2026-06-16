@@ -6,7 +6,7 @@ import { FilterTabs } from "../components/FilterTabs";
 import { SearchBar } from "../components/SearchBar";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
-import { Calendar, Grid, List, MapPin, Clock, Users, ArrowRight, Share2, HelpCircle } from "lucide-react";
+import { Calendar, Grid, List, MapPin, Clock, Share2, HelpCircle } from "lucide-react";
 
 export function Events() {
   const [activeTab, setActiveTab] = useState("All");

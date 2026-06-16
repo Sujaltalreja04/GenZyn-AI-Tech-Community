@@ -7,10 +7,6 @@ import {
   Bookmark,
   Calendar,
   Code,
-  LogOut,
-  Settings,
-  Shield,
-  Briefcase,
   ExternalLink,
   Trash2,
   Rocket

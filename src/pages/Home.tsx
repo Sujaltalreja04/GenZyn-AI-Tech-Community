@@ -469,7 +469,7 @@ export function Home() {
                 {post.excerpt}
               </p>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                <span>By {post.author.name}</span>
+                <span>By {post.author}</span>
                 <Link to="/blog" className="gradient-text" style={{ fontWeight: 600, display: "flex", alignItems: "center" }}>
                   <span>Read</span>
                   <ChevronRight size={14} />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { resourceCategories, difficultyLevels, Resource } from "../data/resources";
+import { resourceCategories, difficultyLevels, type Resource } from "../data/resources";
 import { SearchBar } from "../components/SearchBar";
 import { FilterTabs } from "../components/FilterTabs";
 import { useToast } from "../components/Toast";

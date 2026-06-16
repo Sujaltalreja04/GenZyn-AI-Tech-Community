@@ -246,7 +246,7 @@ export function Projects() {
                       href={proj.link}
                       target="_blank"
                       rel="noreferrer"
-                      style={{ color: "var(--text-muted)", hoverColor: "#fff" }}
+                      style={{ color: "var(--text-muted)" }}
                     >
                       <ExternalLink size={16} />
                     </a>

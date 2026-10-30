@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp } from "./icons";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function ScrollToTop() {
@@ -8,7 +8,7 @@ export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
   // Scroll to top on route change
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 

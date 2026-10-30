@@ -10,7 +10,7 @@ export interface Resource {
 
 export interface ResourceCategory {
   category: string;
-  icon: string;
+  icon: "map" | "tools" | "palette" | "clipboard" | "target" | "box";
   description: string;
   items: Resource[];
 }
@@ -18,7 +18,7 @@ export interface ResourceCategory {
 export const resourceCategories: ResourceCategory[] = [
   {
     category: "Learning Roadmaps",
-    icon: "🗺️",
+    icon: "map",
     description: "Structured learning paths curated by industry experts",
     items: [
       { title: "Frontend Masterclass 2026", type: "Guide", duration: "12 Weeks", tag: "Beginner", description: "From HTML basics to advanced React patterns, animations, and performance optimization.", difficulty: "Beginner", downloads: 4200 },
@@ -33,7 +33,7 @@ export const resourceCategories: ResourceCategory[] = [
   },
   {
     category: "Developer Tools",
-    icon: "🛠️",
+    icon: "tools",
     description: "Boost your productivity with curated toolkits",
     items: [
       { title: "GenZyn Dev Environment", type: "Config", duration: "5 mins", tag: "Essential", description: "Our recommended development setup with dotfiles, shell config, and editor settings.", difficulty: "All Levels", downloads: 8900 },
@@ -48,7 +48,7 @@ export const resourceCategories: ResourceCategory[] = [
   },
   {
     category: "Design Assets",
-    icon: "🎨",
+    icon: "palette",
     description: "Premium design resources for developers",
     items: [
       { title: "Glass UI Figma Kit", type: "Design", duration: "Instant", tag: "UI/UX", description: "60+ glassmorphism components with dark mode variants and responsive layouts.", difficulty: "All Levels", downloads: 9200 },
@@ -63,7 +63,7 @@ export const resourceCategories: ResourceCategory[] = [
   },
   {
     category: "Cheat Sheets",
-    icon: "📋",
+    icon: "clipboard",
     description: "Quick reference guides for popular technologies",
     items: [
       { title: "React Hooks Cheat Sheet", type: "PDF", duration: "Instant", tag: "React", description: "Every React hook explained with examples, gotchas, and best practices.", difficulty: "All Levels", downloads: 18000 },
@@ -78,7 +78,7 @@ export const resourceCategories: ResourceCategory[] = [
   },
   {
     category: "Interview Prep",
-    icon: "🎯",
+    icon: "target",
     description: "Crack your next technical interview",
     items: [
       { title: "DSA Problem Set (200+)", type: "Interactive", duration: "Ongoing", tag: "Algorithms", description: "Curated problems organized by pattern: sliding window, two pointers, DFS/BFS, DP.", difficulty: "All Levels", downloads: 22000 },
@@ -93,7 +93,7 @@ export const resourceCategories: ResourceCategory[] = [
   },
   {
     category: "Community Templates",
-    icon: "📦",
+    icon: "box",
     description: "Ready-to-use project starters and boilerplates",
     items: [
       { title: "Next.js SaaS Starter", type: "Boilerplate", duration: "Instant", tag: "Full Stack", description: "Auth, payments, dashboard, blog — everything you need to launch a SaaS product.", difficulty: "Intermediate", downloads: 19000 },

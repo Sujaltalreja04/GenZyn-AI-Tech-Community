@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
+import { BrainIcon, CloudIcon, Globe, LaptopIcon, Rocket, ShieldIcon } from "./icons";
 
 export function Domains() {
   const domains = [
-    { title: "Artificial Intelligence", icon: "🧠" },
-    { title: "Cyber Security", icon: "🛡️" },
-    { title: "Web Development", icon: "💻" },
-    { title: "Cloud Computing", icon: "☁️" },
-    { title: "Open Source", icon: "🌍" },
-    { title: "Entrepreneurship", icon: "🚀" }
+    { title: "Artificial Intelligence", icon: BrainIcon },
+    { title: "Cyber Security", icon: ShieldIcon },
+    { title: "Web Development", icon: LaptopIcon },
+    { title: "Cloud Computing", icon: CloudIcon },
+    { title: "Open Source", icon: Globe },
+    { title: "Entrepreneurship", icon: Rocket },
   ];
 
   const containerVariants = {
@@ -51,7 +52,9 @@ export function Domains() {
             whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(var(--primary-h), var(--primary-s), var(--primary-l), 0.3)" }}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', cursor: 'pointer' }}
           >
-            <div style={{ fontSize: '3rem' }}>{domain.icon}</div>
+            <div style={{ display: "flex", color: "var(--primary)" }}>
+              <domain.icon width={48} height={48} strokeWidth={1.8} aria-hidden="true" />
+            </div>
             <h3 style={{ textAlign: 'center', fontSize: '1.2rem' }}>{domain.title}</h3>
           </motion.div>
         ))}
@@ -59,4 +62,3 @@ export function Domains() {
     </section>
   );
 }
-

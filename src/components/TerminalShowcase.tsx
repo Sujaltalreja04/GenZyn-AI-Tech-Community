@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, Copy, Check } from "lucide-react";
+import { Terminal, Copy, Check } from "./icons";
 import { useToast } from "./Toast";
 
 export function TerminalShowcase() {
@@ -46,7 +46,7 @@ async fn main() {
         .route("/team", get(get_contributors));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
-    println!("🚀 GenZyn microservices running on {}", addr);
+    println!("GenZyn microservices running on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
@@ -94,7 +94,7 @@ print(tokenizer.decode(outputs[0]))`
         response = "GenZyn stats:\n  - Members: 15,200+\n  - Code Written: 2.4M lines\n  - Active Countries: 85+";
         break;
       case "events":
-        response = "📢 GenZyn Global Hackathon 2026\n  - Date: August 15-17, 2026\n  - Prize Pool: $50,000 USD\n  - Location: San Francisco & Discord";
+        response = "Announcement: GenZyn Global Hackathon 2026\n  - Date: August 15-17, 2026\n  - Prize Pool: $50,000 USD\n  - Location: San Francisco & Discord";
         break;
       case "clear":
         setTerminalHistory([]);

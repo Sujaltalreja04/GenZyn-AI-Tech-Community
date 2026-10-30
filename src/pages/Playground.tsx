@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useToast } from "../components/Toast";
-import { Code, Copy, Play, Pause, RotateCcw, Sliders, Settings } from "lucide-react";
+import { Code, Copy, Play, Pause, RotateCcw, Sliders, Settings } from "../components/icons";
 
 export function Playground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

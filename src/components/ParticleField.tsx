@@ -13,9 +13,10 @@ export function ParticleField() {
     let mouse = { x: -1000, y: -1000 };
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const pixelRatio = Math.min(window.devicePixelRatio, 1.5);
+      canvas.width = canvas.offsetWidth * pixelRatio;
+      canvas.height = canvas.offsetHeight * pixelRatio;
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);

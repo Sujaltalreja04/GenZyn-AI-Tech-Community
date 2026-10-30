@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
-import { Rocket, Users, ArrowRight, CheckCircle, DollarSign } from "lucide-react";
+import { Rocket, Users, ArrowRight, CheckCircle, DollarSign } from "../components/icons";
 
 export function Incubator() {
   const [step, setStep] = useState(1);

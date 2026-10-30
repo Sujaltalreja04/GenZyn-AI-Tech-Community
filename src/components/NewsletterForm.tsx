@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useToast } from "./Toast";
-import { Send, Loader } from "lucide-react";
+import { Send, Loader } from "./icons";
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");

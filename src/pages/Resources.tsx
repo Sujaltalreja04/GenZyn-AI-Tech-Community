@@ -4,7 +4,7 @@ import { resourceCategories, difficultyLevels, type Resource } from "../data/res
 import { SearchBar } from "../components/SearchBar";
 import { FilterTabs } from "../components/FilterTabs";
 import { useToast } from "../components/Toast";
-import { Bookmark, Download, FileText } from "lucide-react";
+import { Bookmark, Download, FileText, ResourceIcon } from "../components/icons";
 
 export function Resources() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -238,7 +238,7 @@ export function Resources() {
             filteredCategories.map((section, sectionIdx) => (
               <div key={sectionIdx}>
                 <h2 style={{ fontSize: "1.75rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span>{section.icon}</span>
+                  <ResourceIcon name={section.icon} size={24} aria-hidden="true" />
                   <span>{section.category}</span>
                   <span style={{ fontSize: "0.85rem", color: "var(--text-dim)", fontWeight: "normal" }}>
                     ({section.items.length})

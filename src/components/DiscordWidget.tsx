@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare } from "./icons";
 
 export function DiscordWidget() {
   const [onlineCount, setOnlineCount] = useState(15243);
@@ -21,8 +21,8 @@ export function DiscordWidget() {
   ];
 
   const announcements = [
-    { user: "GenZyn Lead", text: "📢 Summit v2.0 registrations are now open. We have speakers from Google AI!" },
-    { user: "GZ-Engine Core", text: "🚀 GZ-Engine v2.4 stable is released! Custom Canvas Particle Field is now live." },
+    { user: "GenZyn Lead", text: "Announcement: Summit v2.0 registrations are now open. We have speakers from Google AI!" },
+    { user: "GZ-Engine Core", text: "Release: GZ-Engine v2.4 stable is live. Custom Canvas Particle Field is now available." },
   ];
 
   const showcase = [

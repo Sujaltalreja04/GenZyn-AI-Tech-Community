@@ -4,6 +4,8 @@ import { Layout } from "./components/Layout";
 import { SkeletonLoader } from "./components/SkeletonLoader";
 import { ToastProvider } from "./components/Toast";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthProvider } from "./auth/auth";
 
 // Lazy loading all pages for code splitting & scalability
 const Home = lazy(() => import("./pages/Home"));
@@ -18,12 +20,15 @@ const Careers = lazy(() => import("./pages/Careers"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Incubator = lazy(() => import("./pages/Incubator"));
 const Playground = lazy(() => import("./pages/Playground"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   return (
     <ToastProvider>
       <Router>
+        <AuthProvider>
         <ScrollToTop />
         <Suspense
           fallback={
@@ -43,7 +48,11 @@ function App() {
               <Route path="blog" element={<Blog />} />
               <Route path="contact" element={<Contact />} />
               <Route path="careers" element={<Careers />} />
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="dashboard" element={<Dashboard />} />
+              </Route>
               <Route path="incubator" element={<Incubator />} />
               <Route path="playground" element={<Playground />} />
               {/* Fallback 404 Route */}
@@ -51,11 +60,11 @@ function App() {
             </Route>
           </Routes>
         </Suspense>
+        </AuthProvider>
       </Router>
     </ToastProvider>
   );
 }
 
 export default App;
-
 

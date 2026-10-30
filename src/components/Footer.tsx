@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp } from "./icons";
 import { Twitter, Github, Linkedin, Youtube } from "./SocialIcons";
 import { NewsletterForm } from "./NewsletterForm";
 

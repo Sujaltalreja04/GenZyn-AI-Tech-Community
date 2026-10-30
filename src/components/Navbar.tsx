@@ -1,23 +1,21 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Bell, Menu, Sun, Moon } from "lucide-react";
+import { Bell, Menu, Sun, Moon } from "./icons";
 import logo from "../assets/LOGO.jpeg";
 import { useScrollPosition } from "../hooks/useScrollPosition";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { MobileMenu } from "./MobileMenu";
 import { useToast } from "./Toast";
+import { useAuth } from "../auth/auth";
 
 export function Navbar() {
   const { scrollY, scrollDirection, isAtTop } = useScrollPosition();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [notifications, setNotifications] = useState(3);
   const { addToast } = useToast();
+  const { user, notifications } = useAuth();
 
   const [theme, setTheme] = useLocalStorage<"dark" | "light">("genzyn_theme", "dark");
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+  useEffect(() => document.documentElement.setAttribute("data-theme", theme), [theme]);
 
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -26,9 +24,9 @@ export function Navbar() {
   };
 
   const handleNotificationClick = () => {
-    if (notifications > 0) {
-      addToast(`You have ${notifications} new updates: Check upcoming events and hackathons!`, "info");
-      setNotifications(0);
+    const unreadCount = notifications.filter((notification) => !notification.read).length;
+    if (unreadCount > 0) {
+      addToast(`You have ${unreadCount} new updates. Open your dashboard to review them.`, "info");
     } else {
       addToast("No new notifications.", "info");
     }
@@ -123,7 +121,7 @@ export function Navbar() {
             onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
           >
             <Bell size={20} />
-            {notifications > 0 && (
+            {notifications.some((notification) => !notification.read) && (
               <span
                 style={{
                   position: "absolute",
@@ -142,7 +140,7 @@ export function Navbar() {
                   boxShadow: "0 0 10px var(--red-glow)",
                 }}
               >
-                {notifications}
+                {notifications.filter((notification) => !notification.read).length}
               </span>
             )}
           </button>
@@ -168,13 +166,18 @@ export function Navbar() {
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-          {/* User Dashboard shortcut */}
-          <NavLink to="/dashboard" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)", marginRight: "4px" }}>
-            Dashboard
-          </NavLink>
+          {user ? (
+            <NavLink to="/dashboard" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)", marginRight: "4px" }}>
+              Dashboard
+            </NavLink>
+          ) : (
+            <NavLink to="/login" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)", marginRight: "4px" }}>
+              Log in
+            </NavLink>
+          )}
 
-          <Link to="/contact" className="button">
-            Join Community
+          <Link to={user ? "/dashboard" : "/signup"} className="button">
+            {user ? "Open Dashboard" : "Join Community"}
           </Link>
         </div>
 
@@ -203,6 +206,4 @@ export function Navbar() {
     </>
   );
 }
-
-
 

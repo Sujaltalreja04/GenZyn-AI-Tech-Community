@@ -126,7 +126,7 @@ export function Projects() {
               ))}
             </div>
             <div style={{ display: "flex", gap: "1rem" }}>
-              <a href={spotlightProject.link} className="btn-primary" style={{ boxShadow: "none" }}>
+              <a href="https://github.com/Sujaltalreja04" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ boxShadow: "none" }}>
                 <Github size={16} />
                 <span>View on GitHub</span>
               </a>

@@ -9,31 +9,36 @@ export function Layout() {
   const glowPos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePos.current.x = e.clientX;
-      mousePos.current.y = e.clientY;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
 
     const animateGlow = () => {
-      glowPos.current.x += (mousePos.current.x - glowPos.current.x) * 0.1;
-      glowPos.current.y += (mousePos.current.y - glowPos.current.y) * 0.1;
+      const dx = mousePos.current.x - glowPos.current.x;
+      const dy = mousePos.current.y - glowPos.current.y;
+      glowPos.current.x += dx * 0.1;
+      glowPos.current.y += dy * 0.1;
 
       if (glowRef.current) {
         glowRef.current.style.transform = `translate(${glowPos.current.x}px, ${glowPos.current.y}px) translate(-50%, -50%)`;
       }
 
-      animationFrameId = requestAnimationFrame(animateGlow);
+      if (Math.abs(dx) + Math.abs(dy) > 0.5) {
+        animationFrameId = requestAnimationFrame(animateGlow);
+      } else {
+        animationFrameId = null;
+      }
     };
 
-    animateGlow();
+    const startGlowAnimation = (event: MouseEvent) => {
+      mousePos.current.x = event.clientX;
+      mousePos.current.y = event.clientY;
+      if (animationFrameId === null) animationFrameId = requestAnimationFrame(animateGlow);
+    };
+
+    window.addEventListener("mousemove", startGlowAnimation, { passive: true });
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("mousemove", startGlowAnimation);
+      if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
     };
   }, []);
 

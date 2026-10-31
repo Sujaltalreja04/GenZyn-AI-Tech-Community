@@ -37,7 +37,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <div style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <div className="toast-container" style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
         <AnimatePresence>
           {toasts.map((toast) => (
             <ToastItem key={toast.id} toast={toast} onClose={() => removeToast(toast.id)} />
@@ -82,6 +82,7 @@ function ToastItem({ toast, onClose }: { toast: Toast; onClose: () => void }) {
 
   return (
     <motion.div
+      className="toast"
       initial={{ opacity: 0, x: 100, scale: 0.95 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       exit={{ opacity: 0, x: 100, scale: 0.95 }}

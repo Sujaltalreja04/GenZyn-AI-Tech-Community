@@ -10,7 +10,7 @@ import { TerminalShowcase } from "../components/TerminalShowcase";
 import { projects } from "../data/projects";
 import { blogPosts } from "../data/blog";
 import { events } from "../data/events";
-import { Zap, Users, Code, ChevronRight, MessageSquare } from "../components/icons";
+import { Zap, Users, Code, ChevronRight, Discord } from "../components/icons";
 
 export function Home() {
   // Get 3 featured projects
@@ -414,7 +414,7 @@ export function Home() {
           <p style={{ textAlign: "center", color: "var(--text-dim)", marginBottom: "2rem", textTransform: "uppercase", letterSpacing: "2px", fontSize: "0.85rem" }}>
             Ecosystem Partners & Backers
           </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: "4rem", flexWrap: "wrap", opacity: 0.45 }}>
+          <div className="partner-list" style={{ display: "flex", justifyContent: "center", gap: "4rem", flexWrap: "wrap", opacity: 0.45 }}>
             {partners.map((p, i) => (
               <div
                 key={i}
@@ -489,6 +489,7 @@ export function Home() {
 
       {/* Floating Join Discord CTA */}
       <div
+        className="floating-community-cta"
         style={{
           position: "fixed",
           bottom: "2rem",
@@ -517,8 +518,8 @@ export function Home() {
             textDecoration: "none",
           }}
         >
-          <MessageSquare size={18} />
-          <span>Discord: 15.2k online</span>
+          <Discord size={20} aria-hidden="true" />
+          <span>15.2k online</span>
         </motion.a>
       </div>
     </>

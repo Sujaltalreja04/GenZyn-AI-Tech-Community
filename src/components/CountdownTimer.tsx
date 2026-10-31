@@ -68,6 +68,7 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
       {units.map((unit) => (
         <div
           key={unit.label}
+          className="countdown-item"
           style={{
             display: "flex",
             flexDirection: "column",

@@ -9,11 +9,13 @@ export function ParticleField() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animId: number;
+    let animId = 0;
+    let isRunning = false;
+    let lastFrameTime = 0;
     let mouse = { x: -1000, y: -1000 };
 
     const resize = () => {
-      const pixelRatio = Math.min(window.devicePixelRatio, 1.5);
+      const pixelRatio = Math.min(window.devicePixelRatio, 1.25);
       canvas.width = canvas.offsetWidth * pixelRatio;
       canvas.height = canvas.offsetHeight * pixelRatio;
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -36,7 +38,12 @@ export function ParticleField() {
       r: Math.random() * 2 + 0.5,
     }));
 
-    const draw = () => {
+    const draw = (timestamp: number) => {
+      if (!isRunning) return;
+      animId = requestAnimationFrame(draw);
+      if (timestamp - lastFrameTime < 1000 / 30) return;
+      lastFrameTime = timestamp;
+
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
       ctx.clearRect(0, 0, w, h);
@@ -50,8 +57,8 @@ export function ParticleField() {
         // Mouse attraction
         const dx = mouse.x - p.x;
         const dy = mouse.y - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 200) {
+        const distanceSquared = dx * dx + dy * dy;
+        if (distanceSquared < 200 * 200) {
           p.vx += dx * 0.00005;
           p.vy += dy * 0.00005;
         }
@@ -69,8 +76,9 @@ export function ParticleField() {
           const b = particles[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
+          const distanceSquared = dx * dx + dy * dy;
+          if (distanceSquared < 120 * 120) {
+            const dist = Math.sqrt(distanceSquared);
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -81,12 +89,37 @@ export function ParticleField() {
         }
       }
 
+    };
+
+    const start = () => {
+      if (isRunning || document.hidden) return;
+      isRunning = true;
+      lastFrameTime = 0;
       animId = requestAnimationFrame(draw);
     };
-    draw();
+
+    const stop = () => {
+      isRunning = false;
+      cancelAnimationFrame(animId);
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) start();
+      else stop();
+    }, { threshold: 0.01 });
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    observer.observe(canvas);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      cancelAnimationFrame(animId);
+      stop();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("mousemove", handleMouseMove);
     };
@@ -103,6 +136,7 @@ export function ParticleField() {
         pointerEvents: "auto",
         zIndex: 0,
       }}
+      aria-hidden="true"
     />
   );
 }

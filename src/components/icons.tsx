@@ -12,6 +12,7 @@ import {
   Code as CodeIcon,
   Compass as CompassIcon,
   Copy as CopyIcon,
+  Discord as DiscordIcon,
   Dollar,
   Download as DownloadIcon,
   Cloud,
@@ -61,6 +62,7 @@ import {
   Twitter as TwitterIcon,
   User as UserIcon,
   ViewGrid,
+  Whatsapp as WhatsappIcon,
   Link as LinkIcon,
   Xmark,
   Youtube as YoutubeIcon,
@@ -91,6 +93,7 @@ export const Check = withSize(CheckIcon);
 export const Code = withSize(CodeIcon);
 export const Compass = withSize(CompassIcon);
 export const Copy = withSize(CopyIcon);
+export const Discord = withSize(DiscordIcon);
 export const DollarSign = withSize(Dollar);
 export const Download = withSize(DownloadIcon);
 export const ExternalLink = withSize(LinkIcon);
@@ -129,6 +132,7 @@ export const ChevronDown = withSize(NavArrowDown);
 export const ChevronRight = withSize(NavArrowRight);
 export const X = withSize(Xmark);
 export const Youtube = withSize(YoutubeIcon);
+export const Whatsapp = withSize(WhatsappIcon);
 export const InstagramIcon = withSize(Instagram);
 export const MessageIcon = withSize(Message);
 export const ArrowUp = ArrowUpIcon;

@@ -3,8 +3,22 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ParticleField } from "./ParticleField";
 import { TypewriterText } from "./TypewriterText";
+import { ErrorBoundary } from "./ErrorBoundary";
 
-const Background3D = lazy(() => import("./Background3D").then(({ Background3D: Component }) => ({ default: Component })));
+const loadBackground3D = () => import("./Background3D").then(({ Background3D: Component }) => ({ default: Component }));
+const Background3D = lazy(loadBackground3D);
+
+function supportsWebGL() {
+  try {
+    const canvas = document.createElement("canvas");
+    return Boolean(
+      window.WebGLRenderingContext &&
+      (canvas.getContext("webgl2") || canvas.getContext("webgl")),
+    );
+  } catch {
+    return false;
+  }
+}
 
 export function Hero() {
   const words = ["Developers", "AI Builders", "Innovators", "Founders", "Creators"];
@@ -13,17 +27,34 @@ export function Hero() {
   useEffect(() => {
     if (
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-      !window.matchMedia("(min-width: 900px)").matches
+      !window.matchMedia("(min-width: 900px)").matches ||
+      !supportsWebGL()
     ) return;
 
-    const loadBackground = () => setShouldLoad3D(true);
+    let cancelled = false;
+    const loadBackground = () => {
+      void loadBackground3D()
+        .then(() => {
+          if (!cancelled) setShouldLoad3D(true);
+        })
+        .catch(() => {
+          // The static hero remains fully usable if WebGL cannot be loaded.
+        });
+    };
+
     if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(loadBackground, { timeout: 2500 });
-      return () => window.cancelIdleCallback(idleId);
+      const idleId = window.requestIdleCallback(loadBackground, { timeout: 800 });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback(idleId);
+      };
     }
 
-    const timeoutId = globalThis.setTimeout(loadBackground, 1500);
-    return () => globalThis.clearTimeout(timeoutId);
+    const timeoutId = globalThis.setTimeout(loadBackground, 400);
+    return () => {
+      cancelled = true;
+      globalThis.clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
@@ -31,9 +62,11 @@ export function Hero() {
       <div className="grid-bg"></div>
       <ParticleField />
       {shouldLoad3D && (
-        <Suspense fallback={null}>
-          <Background3D />
-        </Suspense>
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <Background3D />
+          </Suspense>
+        </ErrorBoundary>
       )}
       
       <motion.div 

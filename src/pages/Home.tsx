@@ -10,7 +10,7 @@ import { TerminalShowcase } from "../components/TerminalShowcase";
 import { projects } from "../data/projects";
 import { blogPosts } from "../data/blog";
 import { events } from "../data/events";
-import { Zap, Users, Code, ChevronRight, MessageSquare } from "lucide-react";
+import { Zap, Users, Code, ChevronRight, MessageSquare } from "../components/icons";
 
 export function Home() {
   // Get 3 featured projects
@@ -20,10 +20,11 @@ export function Home() {
   const latestBlogPosts = blogPosts.slice(0, 3);
 
   // Get next big event
-  const nextEvent = events[0] || {
+  const nextEvent = events.find((event) => !event.isPast) || events[0] || {
     id: "global-hackathon",
     title: "GenZyn Global Hackathon 2026",
     date: "2026-08-15T09:00:00.000Z",
+    startDate: "2026-08-15T09:00:00.000Z",
     description: "Join developers from around the world for a 48-hour sprint to build the future of AI and Web3.",
   };
 
@@ -169,7 +170,7 @@ export function Home() {
             <h4 style={{ textAlign: "center", color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "1px", fontSize: "0.85rem" }}>
               Registration Closes In
             </h4>
-            <CountdownTimer targetDate={nextEvent.date} />
+            <CountdownTimer targetDate={nextEvent.startDate} />
           </div>
         </motion.div>
       </section>
@@ -340,6 +341,8 @@ export function Home() {
                   <img
                     src={member.avatar}
                     alt={member.name}
+                    loading="lazy"
+                    decoding="async"
                     style={{ width: "56px", height: "56px", borderRadius: "50%", objectFit: "cover", border: "2px solid var(--red)" }}
                   />
                   <div>
@@ -388,6 +391,8 @@ export function Home() {
                 <img
                   src={t.avatar}
                   alt={t.name}
+                  loading="lazy"
+                  decoding="async"
                   style={{ width: "44px", height: "44px", borderRadius: "50%", objectFit: "cover" }}
                 />
                 <div>

@@ -1,44 +1,53 @@
 import { useEffect, useState } from "react";
 
 interface CountdownTimerProps {
-  targetDate: string; // ISO date string
+  targetDate: string;
+}
+
+interface CountdownState {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  isExpired: boolean;
+}
+
+const expiredState: CountdownState = {
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+  isExpired: true,
+};
+
+function calculateCountdown(targetDate: string): CountdownState {
+  const difference = new Date(targetDate).getTime() - Date.now();
+
+  if (!Number.isFinite(difference) || difference <= 0) {
+    return expiredState;
+  }
+
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / (1000 * 60)) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+    isExpired: false,
+  };
 }
 
 export function CountdownTimer({ targetDate }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const [isExpired, setIsExpired] = useState(false);
+  const [countdown, setCountdown] = useState<CountdownState>(() => calculateCountdown(targetDate));
 
   useEffect(() => {
-    const calculateTimeLeft = () => {
-      const difference = +new Date(targetDate) - +new Date();
-      if (difference <= 0) {
-        setIsExpired(true);
-        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-      }
-
-      return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    };
-
-    setTimeLeft(calculateTimeLeft());
-    const timer = setInterval(() => {
-      const left = calculateTimeLeft();
-      setTimeLeft(left);
+    const timer = window.setInterval(() => {
+      setCountdown(calculateCountdown(targetDate));
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => window.clearInterval(timer);
   }, [targetDate]);
 
-  if (isExpired) {
+  if (countdown.isExpired) {
     return (
       <div className="countdown-expired" style={{ textAlign: "center", color: "var(--red)", fontWeight: "bold" }}>
         EVENT UNDERWAY / CONCLUDED
@@ -47,19 +56,18 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   }
 
   const formatNumber = (num: number) => String(num).padStart(2, "0");
-
   const units = [
-    { label: "Days", value: timeLeft.days },
-    { label: "Hours", value: timeLeft.hours },
-    { label: "Mins", value: timeLeft.minutes },
-    { label: "Secs", value: timeLeft.seconds },
+    { label: "Days", value: countdown.days },
+    { label: "Hours", value: countdown.hours },
+    { label: "Mins", value: countdown.minutes },
+    { label: "Secs", value: countdown.seconds },
   ];
 
   return (
     <div className="countdown" style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-      {units.map((unit, idx) => (
+      {units.map((unit) => (
         <div
-          key={idx}
+          key={unit.label}
           style={{
             display: "flex",
             flexDirection: "column",

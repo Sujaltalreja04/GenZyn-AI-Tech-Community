@@ -1,17 +1,40 @@
+import { lazy, Suspense, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Background3D } from "./Background3D";
 import { ParticleField } from "./ParticleField";
 import { TypewriterText } from "./TypewriterText";
 
+const Background3D = lazy(() => import("./Background3D").then(({ Background3D: Component }) => ({ default: Component })));
+
 export function Hero() {
   const words = ["Developers", "AI Builders", "Innovators", "Founders", "Creators"];
+  const [shouldLoad3D, setShouldLoad3D] = useState(false);
+
+  useEffect(() => {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !window.matchMedia("(min-width: 900px)").matches
+    ) return;
+
+    const loadBackground = () => setShouldLoad3D(true);
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(loadBackground, { timeout: 2500 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = globalThis.setTimeout(loadBackground, 1500);
+    return () => globalThis.clearTimeout(timeoutId);
+  }, []);
 
   return (
     <section className="hero" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
       <div className="grid-bg"></div>
       <ParticleField />
-      <Background3D />
+      {shouldLoad3D && (
+        <Suspense fallback={null}>
+          <Background3D />
+        </Suspense>
+      )}
       
       <motion.div 
         className="glow-blob" 
@@ -71,5 +94,3 @@ export function Hero() {
     </section>
   );
 }
-
-

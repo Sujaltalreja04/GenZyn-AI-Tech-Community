@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { HelpCircle, Home } from "lucide-react";
+import { HelpCircle, Home } from "../components/icons";
 
 export function NotFound() {
   return (

@@ -10,7 +10,8 @@ import {
   ExternalLink,
   Trash2,
   Rocket
-} from "lucide-react";
+} from "../components/icons";
+import { useAuth } from "../auth/auth";
 
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState<"overview" | "bookmarks" | "rsvps" | "projects">("overview");
@@ -19,6 +20,7 @@ export function Dashboard() {
   const [userProjects, setUserProjects] = useState<any[]>([]);
 
   const { addToast } = useToast();
+  const { user, notifications, logout, markNotificationRead } = useAuth();
 
   useEffect(() => {
     // Load Bookmarks
@@ -78,10 +80,32 @@ export function Dashboard() {
                   G
                 </div>
                 <div>
-                  <h3 style={{ fontSize: "1.1rem", margin: 0, fontWeight: 700 }}>GenZyn Member</h3>
+                  <h3 style={{ fontSize: "1.1rem", margin: 0, fontWeight: 700 }}>{user?.name}</h3>
                   <span style={{ fontSize: "0.75rem", color: "var(--red)", fontWeight: 600 }}>Active Developer</span>
                 </div>
+                <button className="btn-secondary" type="button" onClick={() => void logout()} style={{ padding: "0.5rem 0.75rem" }}>
+                  Log out
+                </button>
               </div>
+
+              <section className="card glass" style={{ padding: "1.5rem", marginTop: "1.5rem" }}>
+                <h2 style={{ fontSize: "1.25rem", marginTop: 0 }}>Notifications</h2>
+                {notifications.length === 0 ? (
+                  <p style={{ color: "var(--text-muted)" }}>You have no notifications.</p>
+                ) : (
+                  notifications.map((notification) => (
+                    <button
+                      type="button"
+                      key={notification.id}
+                      onClick={() => void markNotificationRead(notification.id)}
+                      style={{ display: "block", width: "100%", textAlign: "left", background: "transparent", border: 0, color: "inherit", padding: "0.75rem 0", opacity: notification.read ? 0.65 : 1, cursor: "pointer" }}
+                    >
+                      <strong>{notification.title}</strong>
+                      <span style={{ display: "block", color: "var(--text-muted)", marginTop: "0.25rem" }}>{notification.message}</span>
+                    </button>
+                  ))
+                )}
+              </section>
 
               <div
                 style={{

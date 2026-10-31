@@ -1,4 +1,4 @@
-import { Search, X } from "lucide-react";
+import { Search, X } from "./icons";
 
 interface SearchBarProps {
   query: string;

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
 import { FilterTabs } from "../components/FilterTabs";
-import { Award, Users, Heart, Star, ChevronRight, Check } from "lucide-react";
+import { Award, Users, Heart, Star, ChevronRight, Check } from "../components/icons";
 
 export function Careers() {
   const [activeDepartment, setActiveDepartment] = useState("All");

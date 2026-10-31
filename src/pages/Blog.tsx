@@ -5,7 +5,7 @@ import { SearchBar } from "../components/SearchBar";
 import { FilterTabs } from "../components/FilterTabs";
 import { NewsletterForm } from "../components/NewsletterForm";
 import { useToast } from "../components/Toast";
-import { Share2, Clock, User, BookOpen, Award } from "lucide-react";
+import { Share2, Clock, User, BookOpen, Award } from "../components/icons";
 
 export function Blog() {
   const [activeCategory, setActiveCategory] = useState("All");

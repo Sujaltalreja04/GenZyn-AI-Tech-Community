@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
-import { Mail, Phone, MapPin, Globe, Send, CheckCircle, HelpCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Globe, Send, CheckCircle, HelpCircle } from "../components/icons";
 
 export function Contact() {
   const [name, setName] = useState("");

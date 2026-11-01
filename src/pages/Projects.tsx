@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { projects, projectCategories } from "../data/projects";
 import { FilterTabs } from "../components/FilterTabs";
 import { SearchBar } from "../components/SearchBar";
+import { ViewModeToggle, type ViewMode } from "../components/ViewModeToggle";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
 import { Star, GitFork, Users, Plus, Award, BookOpen, ExternalLink } from "../components/icons";
@@ -11,6 +12,7 @@ import { Github } from "../components/SocialIcons";
 export function Projects() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const { addToast } = useToast();
 
@@ -65,13 +67,13 @@ export function Projects() {
     }, 1200);
   };
 
-  // Generate fake contribution graph data (14 weeks x 7 days)
+  // Stable illustrative contribution graph data (18 weeks x 7 days).
   const weeks = 18;
   const days = 7;
-  const contributionGrid = Array.from({ length: weeks * days }).map(() => {
-    const level = Math.floor(Math.random() * 4); // 0 = empty, 1-3 = shade of green/red
-    return level;
-  });
+  const contributionGrid = Array.from(
+    { length: weeks * days },
+    (_, index) => (index * 7 + Math.floor(index / 5)) % 4,
+  );
 
   return (
     <motion.div
@@ -136,7 +138,7 @@ export function Projects() {
           {/* GitHub Style Contribution graph simulation */}
           <div style={{ flex: "1 1 300px", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             <div className="card" style={{ background: "rgba(0, 0, 0, 0.5)", border: "1px solid var(--border)", padding: "1.5rem" }}>
-              <h4 style={{ fontSize: "0.95rem", marginBottom: "1rem", color: "#fff", display: "flex", alignItems: "center", gap: "8px" }}>
+              <h4 className="light-surface-text" style={{ fontSize: "0.95rem", marginBottom: "1rem", color: "#fff", display: "flex", alignItems: "center", gap: "8px" }}>
                 <BookOpen size={16} style={{ color: "var(--red)" }} />
                 <span>Ecosystem Contribution Matrix</span>
               </h4>
@@ -190,23 +192,19 @@ export function Projects() {
       {/* Filter and Search Bar */}
       <section className="main-container">
         <div
+          className="filter-toolbar"
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1.5rem",
             marginBottom: "3.5rem",
             background: "rgba(255, 255, 255, 0.01)",
             border: "1px solid var(--border)",
             borderRadius: "16px",
-            padding: "1rem 1.5rem",
           }}
         >
-          <div style={{ flex: "1 1 300px" }}>
+          <div className="filter-toolbar-search">
             <SearchBar query={searchQuery} onQueryChange={setSearchQuery} placeholder="Search project title or stack..." />
           </div>
           <FilterTabs categories={projectCategories} activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+          <ViewModeToggle value={viewMode} onChange={setViewMode} label="Project layout" />
         </div>
 
         {/* Project Cards Listing */}
@@ -221,7 +219,7 @@ export function Projects() {
               <h3>No projects matched the filters.</h3>
               <p>Try resetting the search bar or choosing another category.</p>
             </motion.div>
-          ) : (
+          ) : viewMode === "grid" ? (
             <motion.div layout className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>
               {filteredProjects.map((proj) => (
                 <motion.div
@@ -291,6 +289,49 @@ export function Projects() {
                     </div>
                   </div>
                 </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              layout
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="project-list"
+            >
+              {filteredProjects.map((proj) => (
+                <motion.article layout key={proj.id} className="card-interactive project-list-item">
+                  <div className="project-list-content">
+                    <div className="project-list-heading">
+                      <span className="badge">{proj.category}</span>
+                      <h3>{proj.title}</h3>
+                    </div>
+                    <p>{proj.description}</p>
+                    <div className="project-list-tags">
+                      {proj.tech.map((technology) => (
+                        <span key={technology} className="tag">{technology}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="project-list-actions">
+                    <div className="project-list-stats" aria-label="Repository statistics">
+                      <span><Star size={14} /> {proj.stars.toLocaleString()}</span>
+                      <span><Users size={14} /> {proj.contributors}</span>
+                      <span><GitFork size={14} /> {proj.forks}</span>
+                    </div>
+                    <a
+                      href={proj.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn-icon"
+                      aria-label={`Open ${proj.title} repository`}
+                      title="Open repository"
+                    >
+                      <ExternalLink size={18} />
+                    </a>
+                  </div>
+                </motion.article>
               ))}
             </motion.div>
           )}

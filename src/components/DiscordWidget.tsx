@@ -86,6 +86,7 @@ export function DiscordWidget() {
           return (
             <button
               key={chan}
+              className={isActive ? "light-surface-text" : undefined}
               onClick={() => setActiveChat(chan)}
               style={{
                 flex: 1,

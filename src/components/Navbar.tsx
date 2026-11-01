@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, Sun, Moon } from "./icons";
 import { useScrollPosition } from "../hooks/useScrollPosition";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -14,6 +14,7 @@ import { useToast } from "./Toast";
 // import { useAuth } from "../auth/auth";
 
 export function Navbar() {
+  const { pathname } = useLocation();
   const { scrollY, scrollDirection, isAtTop } = useScrollPosition();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { addToast } = useToast();
@@ -44,11 +45,12 @@ export function Navbar() {
 
   // Sticky header class & transform logic
   const isHidden = scrollDirection === "down" && scrollY > 100;
+  const isHomePage = pathname === "/";
 
   return (
     <>
       <nav
-        className={`navbar glass ${!isAtTop ? "scrolled" : ""}`}
+        className={`navbar glass ${isHomePage ? "home-navbar" : ""} ${!isAtTop ? "scrolled" : ""}`}
         style={{
           padding: !isAtTop ? "15px 5%" : "25px 5%",
           position: "fixed",

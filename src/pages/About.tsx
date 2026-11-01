@@ -235,6 +235,7 @@ export function About() {
         >
           We Are{" "}
           <span
+            className="light-surface-text"
             style={{
               color: "#ffffff",
               WebkitTextFillColor: "#ffffff",
@@ -645,6 +646,7 @@ export function About() {
                 style={{ display: "flex", flexDirection: "column", gap: "6px" }}
               >
                 <span
+                  className="light-surface-text"
                   style={{ fontWeight: 800, color: "#fff", fontSize: "1.1rem" }}
                 >
                   {mention.outlet}

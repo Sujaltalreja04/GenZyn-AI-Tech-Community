@@ -12,7 +12,7 @@ export function TerminalShowcase() {
     { id: 3, text: "" }
   ]);
   const [copied, setCopied] = useState(false);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalLogRef = useRef<HTMLDivElement>(null);
   const { addToast } = useToast();
 
   const snippets = {
@@ -115,7 +115,13 @@ print(tokenizer.decode(outputs[0]))`
   };
 
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const terminalLog = terminalLogRef.current;
+    if (!terminalLog) return;
+
+    terminalLog.scrollTo({
+      top: terminalLog.scrollHeight,
+      behavior: "smooth",
+    });
   }, [terminalHistory]);
 
   return (
@@ -175,6 +181,7 @@ print(tokenizer.decode(outputs[0]))`
                 return (
                   <button
                     key={lang}
+                    className={isActive ? "active" : undefined}
                     onClick={() => setActiveTab(lang)}
                     style={{
                       border: "none",
@@ -278,6 +285,7 @@ print(tokenizer.decode(outputs[0]))`
 
           {/* Smooth Terminal Command Line Logger */}
           <div
+            ref={terminalLogRef}
             style={{
               flexGrow: 1,
               padding: "1.5rem",
@@ -308,7 +316,6 @@ print(tokenizer.decode(outputs[0]))`
                 </motion.div>
               ))}
             </AnimatePresence>
-            <div ref={terminalEndRef} />
           </div>
 
           {/* Form console input */}

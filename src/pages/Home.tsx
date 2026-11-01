@@ -20,7 +20,9 @@ export function Home() {
   const latestBlogPosts = blogPosts.slice(0, 3);
 
   // Get next big event
-  const nextEvent = events.find((event) => !event.isPast) || events[0] || {
+  const nextEvent = [...events]
+    .filter((event) => !event.isPast)
+    .sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0] || events[0] || {
     id: "global-hackathon",
     title: "GenZyn Global Hackathon 2026",
     date: "2026-08-15T09:00:00.000Z",
@@ -204,13 +206,14 @@ export function Home() {
                 }}
               >
                 <div
+                  className="workflow-step-number"
                   style={{
                     position: "absolute",
                     top: "1.5rem",
                     right: "2rem",
                     fontSize: "3rem",
                     fontWeight: 900,
-                    color: "rgba(255, 255, 255, 0.03)",
+                    color: "rgba(163, 161, 161, 0.73)",
                     fontFamily: "var(--font-display)",
                   }}
                 >

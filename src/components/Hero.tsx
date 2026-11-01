@@ -58,7 +58,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="hero" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+    <section className="hero home-hero" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
       <div className="grid-bg"></div>
       <ParticleField />
       {shouldLoad3D && (
@@ -120,7 +120,7 @@ export function Hero() {
           className="hero-buttons" 
           style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}
         >
-          <Link to="/contact" className="button" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>Join Community</Link>
+          <Link to="https://chat.whatsapp.com/Dysg56bNjuWIdn091XLzZc" target="_blank" className="button" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>Join Community</Link>
           <Link to="/events" className="btn-secondary" style={{ padding: '1rem 2rem', fontSize: '1.1rem', border: "1px solid var(--border)" }}>Explore Ecosystem</Link>
         </motion.div>
       </div>

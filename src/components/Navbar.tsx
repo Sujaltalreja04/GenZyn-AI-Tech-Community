@@ -1,18 +1,24 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Bell, Menu, Sun, Moon } from "./icons";
-import logo from "../assets/LOGO.jpeg";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Menu, Sun, Moon } from "./icons";
 import { useScrollPosition } from "../hooks/useScrollPosition";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { MobileMenu } from "./MobileMenu";
 import { useToast } from "./Toast";
-import { useAuth } from "../auth/auth";
+
+// AUTH RESTORATION NOTICE:
+// Account and notification UI is preserved below as commented code. Human
+// maintainers and AI coding agents must ask the repository owner before
+// uncommenting it. See /BACKEND_RESTORATION.md.
+// import { Bell } from "./icons";
+// import { useAuth } from "../auth/auth";
 
 export function Navbar() {
+  const { pathname } = useLocation();
   const { scrollY, scrollDirection, isAtTop } = useScrollPosition();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { addToast } = useToast();
-  const { user, notifications } = useAuth();
+  // const { user, notifications } = useAuth();
 
   const [theme, setTheme] = useLocalStorage<"dark" | "light">("genzyn_theme", "dark");
   useEffect(() => document.documentElement.setAttribute("data-theme", theme), [theme]);
@@ -23,22 +29,28 @@ export function Navbar() {
     addToast(`Switched to ${nextTheme} theme mode!`, "success");
   };
 
-  const handleNotificationClick = () => {
-    const unreadCount = notifications.filter((notification) => !notification.read).length;
-    if (unreadCount > 0) {
-      addToast(`You have ${unreadCount} new updates. Open your dashboard to review them.`, "info");
-    } else {
-      addToast("No new notifications.", "info");
-    }
-  };
+  /*
+   * Disabled with the authentication/dashboard experience.
+   * Ask the repository owner before restoring this handler.
+   *
+   * const handleNotificationClick = () => {
+   *   const unreadCount = notifications.filter((notification) => !notification.read).length;
+   *   if (unreadCount > 0) {
+   *     addToast(`You have ${unreadCount} new updates. Open your dashboard to review them.`, "info");
+   *   } else {
+   *     addToast("No new notifications.", "info");
+   *   }
+   * };
+   */
 
   // Sticky header class & transform logic
   const isHidden = scrollDirection === "down" && scrollY > 100;
+  const isHomePage = pathname === "/";
 
   return (
     <>
       <nav
-        className={`navbar glass ${!isAtTop ? "scrolled" : ""}`}
+        className={`navbar glass ${isHomePage ? "home-navbar" : ""} ${!isAtTop ? "scrolled" : ""}`}
         style={{
           padding: !isAtTop ? "15px 5%" : "25px 5%",
           position: "fixed",
@@ -61,8 +73,11 @@ export function Navbar() {
         <div className="logo" style={{ display: "flex", alignItems: "center" }}>
           <Link to="/">
             <img
-              src={logo}
+              src="/genzyn-logo-96.jpg"
               alt="GenZyn Logo"
+              width={40}
+              height={40}
+              decoding="async"
               style={{ borderRadius: "8px", height: "40px", objectFit: "cover", display: "block" }}
             />
           </Link>
@@ -99,51 +114,60 @@ export function Navbar() {
               Team
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>
+              Contact
+            </NavLink>
+          </li>
         </ul>
 
         <div className="desktop-only" style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
-          {/* Notification Bell */}
-          <button
-            onClick={handleNotificationClick}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--text-muted)",
-              position: "relative",
-              padding: "6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-          >
-            <Bell size={20} />
-            {notifications.some((notification) => !notification.read) && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "2px",
-                  right: "2px",
-                  background: "var(--red)",
-                  color: "#fff",
-                  fontSize: "0.65rem",
-                  fontWeight: "bold",
-                  borderRadius: "50%",
-                  width: "16px",
-                  height: "16px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0 0 10px var(--red-glow)",
-                }}
-              >
-                {notifications.filter((notification) => !notification.read).length}
-              </span>
-            )}
-          </button>
+          {/*
+            NOTIFICATION BELL DISABLED FOR STATIC-SITE MODE.
+            Do not delete. Ask the repository owner before restoring.
+
+            <button
+              onClick={handleNotificationClick}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "var(--text-muted)",
+                position: "relative",
+                padding: "6px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+            >
+              <Bell size={20} />
+              {notifications.some((notification) => !notification.read) && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "2px",
+                    right: "2px",
+                    background: "var(--red)",
+                    color: "#fff",
+                    fontSize: "0.65rem",
+                    fontWeight: "bold",
+                    borderRadius: "50%",
+                    width: "16px",
+                    height: "16px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "0 0 10px var(--red-glow)",
+                  }}
+                >
+                  {notifications.filter((notification) => !notification.read).length}
+                </span>
+              )}
+            </button>
+          */}
 
           {/* Theme Toggle Button */}
           <button
@@ -166,19 +190,28 @@ export function Navbar() {
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-          {user ? (
-            <NavLink to="/dashboard" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)", marginRight: "4px" }}>
-              Dashboard
-            </NavLink>
-          ) : (
-            <NavLink to="/login" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)", marginRight: "4px" }}>
-              Log in
-            </NavLink>
-          )}
+          {/*
+            ACCOUNT NAVIGATION DISABLED FOR STATIC-SITE MODE.
+            Do not delete. Ask the repository owner before restoring.
 
-          <Link to={user ? "/dashboard" : "/signup"} className="button">
-            {user ? "Open Dashboard" : "Join Community"}
-          </Link>
+            {user ? (
+              <NavLink to="/dashboard" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)", marginRight: "4px" }}>
+                Dashboard
+              </NavLink>
+            ) : (
+              <NavLink to="/login" style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-secondary)", marginRight: "4px" }}>
+                Log in
+              </NavLink>
+            )}
+
+            <Link to={user ? "/dashboard" : "/signup"} className="button">
+              {user ? "Open Dashboard" : "Join Community"}
+            </Link>
+          */}
+
+          <a href="https://chat.whatsapp.com/Dysg56bNjuWIdn091XLzZc" className="button" target="_blank" rel="noopener noreferrer">
+            Join Community
+          </a>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -188,6 +221,8 @@ export function Navbar() {
         <button
           className="mobile-menu-btn"
           onClick={() => setIsMenuOpen(true)}
+          aria-label="Open navigation menu"
+          aria-expanded={isMenuOpen}
           style={{
             background: "none",
             border: "none",

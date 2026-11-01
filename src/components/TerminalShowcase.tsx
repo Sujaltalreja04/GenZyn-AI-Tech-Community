@@ -12,7 +12,7 @@ export function TerminalShowcase() {
     { id: 3, text: "" }
   ]);
   const [copied, setCopied] = useState(false);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalLogRef = useRef<HTMLDivElement>(null);
   const { addToast } = useToast();
 
   const snippets = {
@@ -115,11 +115,18 @@ print(tokenizer.decode(outputs[0]))`
   };
 
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const terminalLog = terminalLogRef.current;
+    if (!terminalLog) return;
+
+    terminalLog.scrollTo({
+      top: terminalLog.scrollHeight,
+      behavior: "smooth",
+    });
   }, [terminalHistory]);
 
   return (
     <motion.div
+      className="terminal-showcase"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
@@ -134,7 +141,7 @@ print(tokenizer.decode(outputs[0]))`
       }}
     >
       {/* Code Snippet Editor (Left) */}
-      <div style={{ flex: "1 1 500px" }}>
+      <div className="terminal-pane" style={{ flex: "1 1 500px" }}>
         <div
           className="card"
           style={{
@@ -149,6 +156,7 @@ print(tokenizer.decode(outputs[0]))`
         >
           {/* Header Bar */}
           <div
+            className="terminal-toolbar"
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -166,13 +174,14 @@ print(tokenizer.decode(outputs[0]))`
             </div>
 
             {/* Language Selection Tabs */}
-            <div style={{ display: "flex", gap: "6px", background: "rgba(0,0,0,0.2)", padding: "3px", borderRadius: "8px" }}>
+            <div className="terminal-tabs" style={{ display: "flex", gap: "6px", background: "rgba(0,0,0,0.2)", padding: "3px", borderRadius: "8px" }}>
               {(["ts", "rust", "python"] as const).map((lang) => {
                 const isActive = activeTab === lang;
                 const labels = { ts: "main.ts", rust: "main.rs", python: "train.py" };
                 return (
                   <button
                     key={lang}
+                    className={isActive ? "active" : undefined}
                     onClick={() => setActiveTab(lang)}
                     style={{
                       border: "none",
@@ -212,7 +221,7 @@ print(tokenizer.decode(outputs[0]))`
           </div>
 
           {/* Smooth Fade Code Panel */}
-          <div style={{ padding: "1.5rem", position: "relative", minHeight: "350px", maxHeight: "350px", overflowY: "auto", background: "rgba(0,0,0,0.2)" }}>
+          <div className="terminal-code-panel" style={{ padding: "1.5rem", position: "relative", minHeight: "350px", maxHeight: "350px", overflowY: "auto", background: "rgba(0,0,0,0.2)" }}>
             <AnimatePresence mode="wait">
               <motion.pre
                 key={activeTab}
@@ -238,7 +247,7 @@ print(tokenizer.decode(outputs[0]))`
       </div>
 
       {/* Interactive Terminal (Right) */}
-      <div style={{ flex: "1 1 400px" }}>
+      <div className="terminal-pane" style={{ flex: "1 1 400px" }}>
         <div
           className="card"
           style={{
@@ -276,6 +285,7 @@ print(tokenizer.decode(outputs[0]))`
 
           {/* Smooth Terminal Command Line Logger */}
           <div
+            ref={terminalLogRef}
             style={{
               flexGrow: 1,
               padding: "1.5rem",
@@ -306,11 +316,11 @@ print(tokenizer.decode(outputs[0]))`
                 </motion.div>
               ))}
             </AnimatePresence>
-            <div ref={terminalEndRef} />
           </div>
 
           {/* Form console input */}
           <form
+            className="terminal-input-row"
             onSubmit={handleTerminalSubmit}
             style={{
               display: "flex",

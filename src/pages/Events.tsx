@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { events, bootcamps } from "../data/events";
+import { events, bootcamps, type Event } from "../data/events";
 import { CountdownTimer } from "../components/CountdownTimer";
 import { FilterTabs } from "../components/FilterTabs";
 import { SearchBar } from "../components/SearchBar";
+import { ViewModeToggle, type ViewMode } from "../components/ViewModeToggle";
 import { Modal } from "../components/Modal";
 import { useToast } from "../components/Toast";
-import { Calendar, Grid, List, MapPin, Clock, Share2, HelpCircle } from "../components/icons";
+import { Calendar, MapPin, Clock, Share2, HelpCircle } from "../components/icons";
 
 export function Events() {
   const [activeTab, setActiveTab] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
   
   // RSVP states
-  const [rsvpEvent, setRsvpEvent] = useState<any | null>(null);
+  const [rsvpEvent, setRsvpEvent] = useState<Event | null>(null);
   const [rsvpName, setRsvpName] = useState("");
   const [rsvpEmail, setRsvpEmail] = useState("");
   const [submittingRsvp, setSubmittingRsvp] = useState(false);
@@ -37,9 +38,14 @@ export function Events() {
     }
     setSubmittingRsvp(true);
     setTimeout(() => {
+      if (!rsvpEvent) {
+        setSubmittingRsvp(false);
+        return;
+      }
+
       // Store in localStorage for Dashboard syncing
-      const rsvps = JSON.parse(localStorage.getItem("genzyn_rsvp_events") || "[]");
-      if (!rsvps.find((r: any) => r.id === rsvpEvent.id)) {
+      const rsvps = JSON.parse(localStorage.getItem("genzyn_rsvp_events") || "[]") as Event[];
+      if (!rsvps.find((r) => r.id === rsvpEvent.id)) {
         rsvps.push(rsvpEvent);
         localStorage.setItem("genzyn_rsvp_events", JSON.stringify(rsvps));
       }
@@ -129,68 +135,21 @@ export function Events() {
 
         {/* Filters bar */}
         <div
+          className="filter-toolbar"
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "1.5rem",
             marginBottom: "3rem",
             background: "rgba(255, 255, 255, 0.01)",
             border: "1px solid var(--border)",
             borderRadius: "16px",
-            padding: "1rem 1.5rem",
           }}
         >
-          <div style={{ flex: "1 1 300px" }}>
+          <div className="filter-toolbar-search">
             <SearchBar query={searchQuery} onQueryChange={setSearchQuery} placeholder="Search events or tags..." />
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
-            <FilterTabs categories={categories} activeCategory={activeTab} onCategoryChange={setActiveTab} />
+          <FilterTabs categories={categories} activeCategory={activeTab} onCategoryChange={setActiveTab} />
 
-            {/* Layout Toggler */}
-            <div
-              style={{
-                display: "flex",
-                background: "rgba(255, 255, 255, 0.04)",
-                border: "1px solid var(--border)",
-                borderRadius: "8px",
-                padding: "2px",
-              }}
-            >
-              <button
-                onClick={() => setViewMode("grid")}
-                style={{
-                  background: viewMode === "grid" ? "var(--red)" : "transparent",
-                  color: "#fff",
-                  border: "none",
-                  padding: "6px 10px",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Grid size={16} />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                style={{
-                  background: viewMode === "list" ? "var(--red)" : "transparent",
-                  color: "#fff",
-                  border: "none",
-                  padding: "6px 10px",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <List size={16} />
-              </button>
-            </div>
-          </div>
+          <ViewModeToggle value={viewMode} onChange={setViewMode} label="Event layout" />
         </div>
 
         {/* Events Layout container */}
@@ -270,8 +229,8 @@ export function Events() {
                         >
                           {evt.isPast ? (
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                              <div><strong>Attendees:</strong> {evt.attendees}+</div>
-                              <div><strong>Highlights:</strong> {evt.highlights}</div>
+                              {typeof evt.attendees === "number" && <div><strong>Attendees:</strong> {evt.attendees}+</div>}
+                              {evt.highlights && <div><strong>Highlights:</strong> {evt.highlights}</div>}
                             </div>
                           ) : (
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -318,17 +277,7 @@ export function Events() {
               {filteredEvents.map((evt) => (
                 <div
                   key={evt.id}
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    background: "rgba(16, 16, 24, 0.4)",
-                    border: "1px solid var(--border)",
-                    borderRadius: "12px",
-                    padding: "1.25rem 2rem",
-                    gap: "1.5rem",
-                  }}
+                  className="card-interactive event-list-item"
                 >
                   <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>

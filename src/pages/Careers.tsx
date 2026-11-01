@@ -144,7 +144,7 @@ export function Careers() {
         </div>
 
         {/* Filter bar */}
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "3rem" }}>
+        <div className="standalone-filter-row" style={{ marginBottom: "3rem" }}>
           <FilterTabs categories={departments} activeCategory={activeDepartment} onCategoryChange={setActiveDepartment} />
         </div>
 

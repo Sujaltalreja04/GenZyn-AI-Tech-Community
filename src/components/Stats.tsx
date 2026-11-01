@@ -69,18 +69,7 @@ function StatCard({ stat, isInView, delay }: { stat: StatItem; isInView: boolean
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.5, delay }}
-      className="card glass"
-      whileHover={{
-        scale: 1.05,
-        boxShadow: "0 8px 30px var(--red-glow)",
-        borderColor: "var(--border-hover)",
-      }}
-      style={{
-        textAlign: "center",
-        padding: "2rem 1.5rem",
-        background: "rgba(16, 16, 24, 0.4)",
-        backdropFilter: "blur(12px)",
-      }}
+      className="stats-card"
     >
       <h2
         style={{

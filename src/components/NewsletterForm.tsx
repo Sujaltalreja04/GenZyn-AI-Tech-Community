@@ -40,8 +40,8 @@ export function NewsletterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ position: "relative", width: "100%" }}>
-      <div style={{ display: "flex", gap: "0.5rem", width: "100%" }}>
+    <form className="newsletter-form" onSubmit={handleSubmit} style={{ position: "relative", width: "100%" }}>
+      <div className="newsletter-row" style={{ display: "flex", gap: "0.5rem", width: "100%" }}>
         <input
           type="email"
           value={email}

@@ -149,6 +149,7 @@ export function Resources() {
       {/* Filtering Control Row */}
       <section className="main-container">
         <div
+          className="resource-filter-panel"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -161,8 +162,8 @@ export function Resources() {
           }}
         >
           {/* Row 1: Search and Bookmarks filter */}
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "1rem", alignItems: "center" }}>
-            <div style={{ flex: "1 1 300px" }}>
+          <div className="resource-filter-top">
+            <div className="resource-filter-search">
               <SearchBar query={searchQuery} onQueryChange={setSearchQuery} placeholder="Search learning guides..." />
             </div>
 
@@ -188,7 +189,7 @@ export function Resources() {
           </div>
 
           {/* Row 2: Category tabs */}
-          <div>
+          <div className="resource-filter-group">
             <h4 style={{ fontSize: "0.85rem", textTransform: "uppercase", color: "var(--text-dim)", letterSpacing: "1px", marginBottom: "8px" }}>
               Categories
             </h4>
@@ -196,7 +197,7 @@ export function Resources() {
           </div>
 
           {/* Row 3: Difficulty filters */}
-          <div>
+          <div className="resource-filter-group">
             <h4 style={{ fontSize: "0.85rem", textTransform: "uppercase", color: "var(--text-dim)", letterSpacing: "1px", marginBottom: "8px" }}>
               Difficulty Level
             </h4>

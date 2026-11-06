@@ -12,6 +12,27 @@ dist
 dist-ssr
 *.local
 
+# Environment files and deployment settings. The example is documentation only.
+.env
+.env.*
+!.env.example
+.vercel
+.convex
+
+# Credentials, signing material, and local certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+secrets/
+credentials/
+
+# Build/test artifacts
+coverage
+*.tsbuildinfo
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

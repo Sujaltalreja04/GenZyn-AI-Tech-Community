@@ -13,7 +13,165 @@ export interface Event {
   isFeatured?: boolean;
 }
 
-export const events: Event[] = [
+const eventList: Event[] = [
+  // Community event archive imported from the GenZyn WhatsApp announcements.
+  // Repeated promotional messages are represented by one canonical event entry.
+  {
+    id: "hackfront-india-2026",
+    title: "HackFront India 2026",
+    date: "Event date TBA; submissions closed October 31, 2026",
+    startDate: "2026-10-31T18:29:00.000Z",
+    description: "A 30-hour offline hackathon at IIIT Delhi with a ₹1 crore overall prize pool, ₹5 lakh cash prize, and up to ₹50 lakh in funding support. The source announcement did not include the final event date.",
+    type: "Hackathon",
+    tags: ["IIIT Delhi", "Offline", "Innovation", "Funding"],
+    link: "https://whereuelevate.com/drills/hackfrontindia-2026?w_ref=QUXJA3",
+    highlights: "30-hour build, ₹5 lakh cash prize, startup funding support",
+    isPast: true
+  },
+  {
+    id: "catalyst-hack-2026",
+    title: "Catalyst Hack 2026",
+    date: "October 24-25, 2026",
+    startDate: "2026-10-24T00:00:00.000Z",
+    description: "A virtual team hackathon from Catalyst Crew Dev Community and Posterwa focused on solving real-world problems, building, and deploying impactful solutions.",
+    type: "Hackathon",
+    tags: ["Virtual", "Teams of 4-5", "₹20k Prizes", "AWS"],
+    link: "https://unstop.com/p/catalyst-hack-2026-catalyst-crew-dev-community-1760000",
+    highlights: "Online team challenge with mentors, judges, and prizes",
+    isPast: true
+  },
+  {
+    id: "ahgv-buildverse-2026",
+    title: "AHGV Buildverse 2026",
+    date: "October 4, 2026",
+    startDate: "2026-10-04T00:00:00.000Z",
+    description: "An eight-hour hackathon presented by Avaroite and HackGyanVerse, bringing teams together for focused coding, creativity, problem-solving, and innovation.",
+    type: "Hackathon",
+    tags: ["8 Hours", "Teams of 2-4", "Innovation"],
+    link: "https://unstop.com/o/Mz70soJ?lb=HI7GPlGM",
+    highlights: "Eight-hour team build focused on practical problem-solving",
+    isPast: true
+  },
+  {
+    id: "grand-hack-ipec-2026",
+    title: "Grand Hack IPEC 2026",
+    date: "September 26-27, 2026",
+    startDate: "2026-09-26T00:00:00.000Z",
+    description: "A national-level 24-hour offline hackathon at Inderprastha Engineering College covering AI, cybersecurity, Web3, IoT, AR/VR, smart cities, and open innovation.",
+    type: "Hackathon",
+    tags: ["IPEC Ghaziabad", "24 Hours", "Offline", "National"],
+    link: "https://unstop.com/hackathons/grand-hack-ipec-hackshastra-1704703",
+    highlights: "Industry mentorship, certificates, prizes, and internship opportunities",
+    isPast: true
+  },
+  {
+    id: "devhack-2026",
+    title: "DevHack 2026",
+    date: "September 18-19, 2026",
+    startDate: "2026-09-18T00:00:00.000Z",
+    description: "Tech4Hack and GDG IIMT's hybrid open-innovation hackathon, with no predefined problem statements and freedom for teams to build around ideas they care about.",
+    type: "Hackathon",
+    tags: ["IIMT Meerut", "Hybrid", "Open Innovation"],
+    link: "https://unstop.com/hackathons/devhack-2026-gdg-on-campus-iimt-meerut-1750208",
+    highlights: "Open-ended building with collaboration and industry feedback",
+    isPast: true
+  },
+  {
+    id: "code-vibes-hack-1",
+    title: "The Code Vibes Hack 1.0",
+    date: "Event date not provided; registration closed September 15, 2026",
+    startDate: "2026-09-15T18:29:00.000Z",
+    description: "A free community hackathon for solo builders and teams working across AI/ML, web development, app development, cybersecurity, and open innovation.",
+    type: "Hackathon",
+    tags: ["Free", "Teams of 1-4", "Open Innovation"],
+    link: "https://forms.gle/JDMoEFFiMW6E2rqM7",
+    highlights: "Project showcase, certificates, recognition, and developer networking",
+    isPast: true
+  },
+  {
+    id: "kickr-code-mania-2026",
+    title: "KICKR Code Mania 2026",
+    date: "September 7-9, 2026",
+    startDate: "2026-09-07T00:00:00.000Z",
+    description: "A three-day national-level AI and gaming hackathon at Sharda University with mentorship, pitching, accommodation, food, goodies, and certificates provided.",
+    type: "Hackathon",
+    tags: ["Sharda University", "AI", "Gaming", "₹2.5L Prizes"],
+    link: "https://www.kickrcodemania.com",
+    highlights: "Three days of building, mentoring, pitching, and networking",
+    isPast: true
+  },
+  {
+    id: "techtribe-ai-speaker-session",
+    title: "TechTribe AI Speaker Session",
+    date: "September 5, 2026",
+    startDate: "2026-09-05T00:00:00.000Z",
+    description: "A free in-person AI speaker session at Thoughtworks with industry insights, career guidance, networking, refreshments, and attendee goodies.",
+    type: "Conference",
+    tags: ["AI", "Thoughtworks", "In-Person", "Free"],
+    link: "https://luma.com/thk0hw89?tk=0VMarN",
+    highlights: "Expert talks, career guidance, community networking, and refreshments",
+    isPast: true
+  },
+  {
+    id: "codefusion-2k26",
+    title: "CodeFusion 2K26",
+    date: "August 21-22, 2026",
+    startDate: "2026-08-21T00:00:00.000Z",
+    description: "A 36-hour national-level offline hackathon organized by CODEVERSE at Echelon Institute of Technology, covering AI, Web3, blockchain, cybersecurity, and open innovation.",
+    type: "Hackathon",
+    tags: ["Faridabad", "36 Hours", "Microsoft", "₹2L+ Prizes"],
+    link: "https://unstop.com/o/FfsKV06/?ref=DHRL2oBc",
+    highlights: "Workshops, mentorship, real-world problem statements, and a ₹2 lakh+ prize pool",
+    isPast: true
+  },
+  {
+    id: "ai-forward-deployed-engineer-masterclass",
+    title: "AI Forward Deployed Engineer Masterclass",
+    date: "August 8, 2026, 8:00-9:30 PM IST",
+    startDate: "2026-08-08T14:30:00.000Z",
+    description: "A live online masterclass with Salesforce engineer Shresth Sahai covering backend systems, GenAI, APIs, agents, deployment, career opportunities, and the FDE roadmap.",
+    type: "Workshop",
+    tags: ["Online", "GenAI", "Career", "Certificate"],
+    link: "https://vm.ltd/CDGBLK/ix9Lju",
+    highlights: "Live expert session, career roadmap, and Q&A",
+    isPast: true
+  },
+  {
+    id: "tech4hack-buildathon-2026",
+    title: "Buildathon 2026 by Tech4Hack × GenZyn Tech",
+    date: "August 1, 2026, 10:00 AM-5:00 PM",
+    startDate: "2026-08-01T04:30:00.000Z",
+    description: "A student-focused buildathon at Thoughtworks Technology, Gurugram, featuring mentors, real-world projects, networking, certificates, participant T-shirts, and internships for the top teams.",
+    type: "Hackathon",
+    tags: ["Gurugram", "In-Person", "Mentorship", "Internships"],
+    link: "https://luma.com/9lsgmkt8?tk=QdVu6x",
+    highlights: "Certificates and T-shirts for participants, internships for the top three teams",
+    isPast: true
+  },
+  {
+    id: "manthan-x-2026",
+    title: "Manthan X 2026",
+    date: "June 26, 2026",
+    startDate: "2026-06-26T00:00:00.000Z",
+    description: "Chhattisgarh's startup and innovation summit at BIT Auditorium, Durg, with live pitching, mentorship, investor networking, incubation support, and an equity-free grant.",
+    type: "Conference",
+    tags: ["Durg", "Hybrid", "Startups", "₹1L Grant"],
+    link: "https://manthanxfounders.edgeone.app/",
+    highlights: "Live startup pitches, investor access, incubation support, and a ₹1 lakh equity-free grant",
+    isPast: true
+  },
+  {
+    id: "vibe2ship-2026",
+    title: "Vibe2Ship National Vibe Coding Hackathon",
+    date: "Event date not provided; registration closed June 23, 2026",
+    startDate: "2026-06-23T04:30:00.000Z",
+    description: "A national-level AI coding hackathon from Coding Ninjas 10X Club and Google for Developers, with solo participation, Google AI mentorship, and certificates for participants who submitted a solution.",
+    type: "Hackathon",
+    tags: ["AI", "National", "Solo", "₹3L Prizes"],
+    link: "https://tinyurl.com/4dkthd9n",
+    highlights: "₹3 lakh prize pool, Google AI mentorship, and participation certificates",
+    isPast: true
+  },
   // Featured
   {
     id: "hack-2026",
@@ -208,6 +366,10 @@ export const events: Event[] = [
     isPast: true
   },
 ];
+
+export const events: Event[] = [...eventList].sort(
+  (a, b) => Date.parse(b.startDate) - Date.parse(a.startDate),
+);
 
 export const eventTypes = ["All", "Hackathon", "Workshop", "Conference", "Networking", "Bootcamp"];
 

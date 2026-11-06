@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
-import { ArrowUp } from "./icons";
-import { Twitter, Github, Linkedin, Youtube } from "./SocialIcons";
+import { Twitter, Github, Linkedin, Whatsapp } from "./SocialIcons";
 import { NewsletterForm } from "./NewsletterForm";
+
+// Replace this with the owner-supplied WhatsApp Community invite URL when available.
+const WHATSAPP_URL = "https://www.whatsapp.com/";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <footer className="footer" style={{ borderTop: "1px solid var(--border)", background: "var(--bg-secondary)", padding: "5rem 0 2rem" }}>
@@ -67,30 +65,20 @@ export function Footer() {
 
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
             {/* Social icons */}
-            <div className="footer-social" style={{ display: "flex", gap: "0.75rem" }}>
-              <a href="https://twitter.com/genzyn" target="_blank" rel="noreferrer" className="btn-icon">
-                <Twitter size={18} />
+            <div className="footer-social" style={{ display: "flex", gap: "0.75rem" }} aria-label="GenZyn social links">
+              <a href="https://twitter.com/genzyn" target="_blank" rel="noreferrer" className="btn-icon" aria-label="GenZyn on Twitter" title="Twitter">
+                <Twitter size={18} aria-hidden="true" />
               </a>
-              <a href="https://github.com/genzyn" target="_blank" rel="noreferrer" className="btn-icon">
-                <Github size={18} />
+              <a href="https://github.com/genzyn" target="_blank" rel="noreferrer" className="btn-icon" aria-label="GenZyn on GitHub" title="GitHub">
+                <Github size={18} aria-hidden="true" />
               </a>
-              <a href="https://linkedin.com/company/genzyn" target="_blank" rel="noreferrer" className="btn-icon">
-                <Linkedin size={18} />
+              <a href="https://linkedin.com/company/genzyn" target="_blank" rel="noreferrer" className="btn-icon" aria-label="GenZyn on LinkedIn" title="LinkedIn">
+                <Linkedin size={18} aria-hidden="true" />
               </a>
-              <a href="https://youtube.com/c/genzyn" target="_blank" rel="noreferrer" className="btn-icon">
-                <Youtube size={18} />
+              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="btn-icon" aria-label="GenZyn on WhatsApp" title="WhatsApp">
+                <Whatsapp size={19} aria-hidden="true" />
               </a>
             </div>
-
-            {/* Back to top */}
-            <button
-              onClick={handleScrollToTop}
-              className="btn-icon"
-              title="Scroll to Top"
-              style={{ background: "rgba(255,255,255,0.05)", border: "none", cursor: "pointer" }}
-            >
-              <ArrowUp size={18} />
-            </button>
           </div>
         </div>
       </div>

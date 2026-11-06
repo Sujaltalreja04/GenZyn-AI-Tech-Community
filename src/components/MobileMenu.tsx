@@ -24,6 +24,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          className="mobile-menu-overlay"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
@@ -33,7 +34,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             top: 0,
             left: 0,
             width: "100%",
-            height: "100vh",
+            minHeight: "100dvh",
             background: "rgba(3, 3, 5, 0.97)",
             backdropFilter: "blur(20px)",
             zIndex: 999,

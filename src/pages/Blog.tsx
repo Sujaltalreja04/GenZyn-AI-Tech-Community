@@ -5,12 +5,14 @@ import { SearchBar } from "../components/SearchBar";
 import { FilterTabs } from "../components/FilterTabs";
 import { NewsletterForm } from "../components/NewsletterForm";
 import { useToast } from "../components/Toast";
-import { Share2, Clock, User, BookOpen, Award } from "../components/icons";
+import { Share2, Clock, User, Award } from "../components/icons";
+
+const BLOG_BATCH_SIZE = 8;
 
 export function Blog() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState(BLOG_BATCH_SIZE);
 
   const { addToast } = useToast();
 
@@ -81,7 +83,21 @@ export function Blog() {
               justifyContent: "center",
             }}
           >
-            <BookOpen size={64} style={{ color: "rgba(255,255,255,0.2)" }} />
+            <img
+              src={featuredPost.image}
+              alt={featuredPost.imageAlt}
+              width={1200}
+              height={800}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              onError={(event) => { event.currentTarget.style.display = "none"; }}
+              style={{ width: "100%", height: "100%", position: "absolute", inset: 0, objectFit: "cover" }}
+            />
+            <div
+              aria-hidden="true"
+              style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 55%, rgba(5,5,8,0.42) 100%)" }}
+            />
           </div>
           <div style={{ flex: "1 1 50%", padding: "3rem", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <div style={{ display: "flex", gap: "8px", marginBottom: "1rem" }}>
@@ -132,26 +148,25 @@ export function Blog() {
 
       {/* Main Blog Workspace Grid + Sidebar */}
       <section className="main-container">
+        {/* Search and category controls span the full workspace, matching other listing pages. */}
+        <div
+          className="filter-toolbar filter-toolbar--simple"
+          style={{
+            marginBottom: "3rem",
+            background: "rgba(255, 255, 255, 0.01)",
+            border: "1px solid var(--border)",
+            borderRadius: "16px",
+          }}
+        >
+          <div className="filter-toolbar-search">
+            <SearchBar query={searchQuery} onQueryChange={setSearchQuery} placeholder="Search posts, summaries, authors..." />
+          </div>
+          <FilterTabs categories={blogCategories} activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+        </div>
+
         <div style={{ display: "flex", flexWrap: "wrap", gap: "3rem" }}>
           {/* Main List */}
           <div style={{ flex: "1 1 65%" }}>
-            {/* Filters */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1.5rem",
-                marginBottom: "3rem",
-                background: "rgba(255, 255, 255, 0.01)",
-                border: "1px solid var(--border)",
-                borderRadius: "16px",
-                padding: "1rem 1.5rem",
-              }}
-            >
-              <SearchBar query={searchQuery} onQueryChange={setSearchQuery} placeholder="Search posts, summaries, authors..." />
-              <FilterTabs categories={blogCategories} activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
-            </div>
-
             {/* Articles */}
             <AnimatePresence mode="popLayout">
               {filteredPosts.length === 0 ? (
@@ -177,7 +192,18 @@ export function Blog() {
                       }}
                       whileHover={{ y: -8, borderColor: "var(--border-hover)", boxShadow: "0 8px 30px var(--red-glow)" }}
                     >
-                      <div style={{ height: "120px", background: post.gradient }} />
+                      <div style={{ height: "140px", background: post.gradient, position: "relative", overflow: "hidden" }}>
+                        <img
+                          src={post.image}
+                          alt={post.imageAlt}
+                          width={1200}
+                          height={800}
+                          loading="lazy"
+                          decoding="async"
+                          onError={(event) => { event.currentTarget.style.display = "none"; }}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      </div>
                       <div style={{ padding: "1.75rem", flexGrow: 1, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                           <span className="badge" style={{ fontSize: "0.75rem", padding: "3px 8px" }}>
@@ -229,7 +255,7 @@ export function Blog() {
             {/* Pagination trigger */}
             {filteredPosts.length > visibleCount && (
               <div style={{ textAlign: "center", marginTop: "3rem" }}>
-                <button onClick={() => setVisibleCount((prev) => prev + 6)} className="btn-secondary" style={{ padding: "0.75rem 2.5rem" }}>
+                <button onClick={() => setVisibleCount((prev) => prev + BLOG_BATCH_SIZE)} className="btn-secondary" style={{ padding: "0.75rem 2.5rem" }}>
                   Load More Articles
                 </button>
               </div>

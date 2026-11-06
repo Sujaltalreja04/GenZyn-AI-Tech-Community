@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-three/drei": "^9.121.5",
     "@react-three/fiber": "^8.17.14",
+    "convex": "1.49.0",
     "framer-motion": "^12.40.0",
     "iconoir-react": "^7.12.1",
     "react": "^18.3.1",

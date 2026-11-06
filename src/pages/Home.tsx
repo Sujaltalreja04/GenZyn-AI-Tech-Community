@@ -10,7 +10,7 @@ import { TerminalShowcase } from "../components/TerminalShowcase";
 import { projects } from "../data/projects";
 import { blogPosts } from "../data/blog";
 import { events } from "../data/events";
-import { Zap, Users, Code, ChevronRight, MessageSquare } from "../components/icons";
+import { Zap, Users, Code, ChevronRight, Discord } from "../components/icons";
 
 export function Home() {
   // Get 3 featured projects
@@ -20,7 +20,9 @@ export function Home() {
   const latestBlogPosts = blogPosts.slice(0, 3);
 
   // Get next big event
-  const nextEvent = events.find((event) => !event.isPast) || events[0] || {
+  const nextEvent = [...events]
+    .filter((event) => !event.isPast)
+    .sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0] || events[0] || {
     id: "global-hackathon",
     title: "GenZyn Global Hackathon 2026",
     date: "2026-08-15T09:00:00.000Z",
@@ -204,13 +206,14 @@ export function Home() {
                 }}
               >
                 <div
+                  className="workflow-step-number"
                   style={{
                     position: "absolute",
                     top: "1.5rem",
                     right: "2rem",
                     fontSize: "3rem",
                     fontWeight: 900,
-                    color: "rgba(255, 255, 255, 0.03)",
+                    color: "rgba(163, 161, 161, 0.73)",
                     fontFamily: "var(--font-display)",
                   }}
                 >
@@ -414,7 +417,7 @@ export function Home() {
           <p style={{ textAlign: "center", color: "var(--text-dim)", marginBottom: "2rem", textTransform: "uppercase", letterSpacing: "2px", fontSize: "0.85rem" }}>
             Ecosystem Partners & Backers
           </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: "4rem", flexWrap: "wrap", opacity: 0.45 }}>
+          <div className="partner-list" style={{ display: "flex", justifyContent: "center", gap: "4rem", flexWrap: "wrap", opacity: 0.45 }}>
             {partners.map((p, i) => (
               <div
                 key={i}
@@ -489,6 +492,7 @@ export function Home() {
 
       {/* Floating Join Discord CTA */}
       <div
+        className="floating-community-cta"
         style={{
           position: "fixed",
           bottom: "2rem",
@@ -517,8 +521,8 @@ export function Home() {
             textDecoration: "none",
           }}
         >
-          <MessageSquare size={18} />
-          <span>Discord: 15.2k online</span>
+          <Discord size={20} aria-hidden="true" />
+          <span>15.2k online</span>
         </motion.a>
       </div>
     </>

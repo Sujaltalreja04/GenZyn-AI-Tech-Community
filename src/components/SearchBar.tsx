@@ -9,7 +9,7 @@ interface SearchBarProps {
 
 export function SearchBar({ query, onQueryChange, placeholder = "Search...", resultCount }: SearchBarProps) {
   return (
-    <div style={{ position: "relative", maxWidth: "400px", width: "100%" }}>
+    <div className="search-control" style={{ position: "relative", maxWidth: "400px", width: "100%" }}>
       <Search size={18} style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "#6b7280", pointerEvents: "none" }} />
       <input
         type="text"

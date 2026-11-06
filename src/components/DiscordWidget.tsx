@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageSquare } from "./icons";
+import { Discord } from "./icons";
 
 export function DiscordWidget() {
   const [onlineCount, setOnlineCount] = useState(15243);
@@ -38,7 +38,7 @@ export function DiscordWidget() {
 
   return (
     <div
-      className="card"
+      className="card discord-widget"
       style={{
         background: "rgba(88, 101, 242, 0.05)", // subtle discord blurple
         border: "1px solid rgba(88, 101, 242, 0.2)",
@@ -51,7 +51,7 @@ export function DiscordWidget() {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <MessageSquare style={{ color: "#5865F2" }} size={24} />
+          <Discord style={{ color: "#5865F2" }} size={50} aria-hidden="true" />
           <div>
             <h3 style={{ fontSize: "1.2rem", margin: 0, fontWeight: 800 }}>Discord Live Feed</h3>
             <span style={{ fontSize: "0.8rem", color: "var(--text-dim)", display: "flex", alignItems: "center", gap: "4px" }}>
@@ -74,17 +74,19 @@ export function DiscordWidget() {
             borderRadius: "8px",
           }}
         >
+          <Discord size={20} aria-hidden="true" />
           Join Discord
         </a>
       </div>
 
       {/* Tab selectors for mock channels */}
-      <div style={{ display: "flex", gap: "4px", background: "rgba(0,0,0,0.2)", padding: "3px", borderRadius: "8px" }}>
+      <div className="discord-tabs" style={{ display: "flex", gap: "4px", background: "rgba(0,0,0,0.2)", padding: "3px", borderRadius: "8px" }}>
         {(["general", "announcements", "showcase"] as const).map((chan) => {
           const isActive = activeChat === chan;
           return (
             <button
               key={chan}
+              className={isActive ? "light-surface-text" : undefined}
               onClick={() => setActiveChat(chan)}
               style={{
                 flex: 1,

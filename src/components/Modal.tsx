@@ -30,6 +30,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = "500px" }: 
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          className="modal-overlay"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -47,6 +48,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = "500px" }: 
           }}
         >
           <motion.div
+            className="modal-content"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
